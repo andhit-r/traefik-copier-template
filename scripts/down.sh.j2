@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-{{ stack_name }}}"
-sudo docker compose -f "{{ project_slug }}/docker-compose.common.yaml" -f "{{ project_slug }}/docker-compose.${1:-devel}.yaml" down
+sudo docker compose -f docker-compose.common.yaml -f docker-compose.${1:-devel}.yaml down

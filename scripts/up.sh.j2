@@ -3,4 +3,4 @@ set -euo pipefail
 export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-{{ stack_name }}}"
 sudo docker network ls | grep -q "{{ public_network }}" || sudo docker network create "{{ public_network }}"
 sudo docker network ls | grep -q "{{ internal_network }}" || sudo docker network create "{{ internal_network }}"
-sudo docker compose -f "{{ project_slug }}/docker-compose.common.yaml" -f "{{ project_slug }}/docker-compose.${1:-devel}.yaml" up -d
+sudo docker compose -f docker-compose.common.yaml -f docker-compose.${1:-devel}.yaml up -d
