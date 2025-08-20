@@ -1,44 +1,88 @@
 # 🚀 Traefik Copier Template
 
-This repository provides a **[Copier](https://copier.readthedocs.io/)** template for setting up [Traefik](https://traefik.io/) as a reverse proxy using **Docker Compose**.  
-It is designed to support both **local development** and **production deployment** with separate configuration files.
+![Traefik
+Logo](https://doc.traefik.io/traefik/assets/img/traefik.logo.png)
 
----
+[![Docker](https://img.shields.io/badge/Docker-✔-blue?logo=docker)](https://www.docker.com/)
+[![Build
+Status](https://img.shields.io/badge/build-passing-brightgreen)](#)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Made with
+ChatGPT](https://img.shields.io/badge/Made%20with-ChatGPT-ff69b4?logo=openai)](https://openai.com/)
+
+## 📖 Overview
+
+This project provides a **Copier template** to quickly scaffold a
+Traefik setup using Docker and Docker Compose.\
+It is designed to support both **local development** and **production
+deployment** with SSL and Let's Encrypt.
 
 ## ✨ Features
 
-- 🗂 **Environment separation**
-  - `docker-compose.common.yaml.j2` → shared configuration
-  - `docker-compose.devel.yaml.j2` → development setup (local, no SSL)
-  - `docker-compose.prod.yaml.j2` → production setup (with Let's Encrypt SSL)
+-   🐳 Docker Compose setup split into `common`, `devel`, and `prod`
+-   🌍 Local domain: `*.localhost`
+-   🔐 Production domain: `*.simetri-sinergi.id`
+-   🔒 Automatic SSL certificates via Let's Encrypt
+-   📊 Traefik Dashboard available in local and production (with
+    password protection)
+-   ⚡ Ready-to-use scripts (`up.sh` and `down.sh`) for managing the
+    stack
 
-- ⚙️ **Dynamic Traefik configuration**
-  - `traefik/traefik.yml.j2` for base configuration
-  - Ready to extend with dynamic rules
+## 📂 Project Structure
 
-- 🛠 **Helper scripts**
-  - `scripts/up.sh.j2` → start services
-  - `scripts/down.sh.j2` → stop services
+    .
+    ├── README.md
+    ├── copier.yml
+    ├── scripts
+    │   ├── up.sh
+    │   └── down.sh
+    ├── traefik
+    │   ├── traefik.yml
+    │   ├── dynamic/
+    │   └── acme.json
+    └── {{ project_slug }}/
+        ├── docker-compose.common.yaml
+        ├── docker-compose.devel.yaml
+        └── docker-compose.prod.yaml
 
-- 📦 **Copier template structure**
-  - `copier.yml` defines template questions and variables
-  - Project scaffolding is generated into a target folder
+## ⚙️ Usage
 
----
+### 1. Generate Project
 
-## 📋 Requirements
+``` bash
+copier copy gh:simetri-sinergi/traefik-copier-template my-traefik-stack
+cd my-traefik-stack
+```
 
-- 🐧 Linux / macOS (recommended)
-- 🐳 [Docker](https://docs.docker.com/get-docker/)
-- 📦 [Docker Compose](https://docs.docker.com/compose/)
-- 📐 [Copier](https://copier.readthedocs.io/) (`pip install copier`)
+### 2. Local Development
 
----
+``` bash
+sudo docker compose -f docker-compose.common.yaml -f docker-compose.devel.yaml up -d
+```
 
-## ▶️ Usage
+-   Access dashboard at 👉 <http://traefik.localhost>
 
-1. **Generate a new project from this template**
+### 3. Production Deployment
 
-   ```bash
-   copier copy gh:your-org/traefik-copier-template my-traefik-project
-   cd my-traefik-project
+``` bash
+sudo docker compose -f docker-compose.common.yaml -f docker-compose.prod.yaml up -d
+```
+
+-   Access dashboard at 👉 <https://traefik.simetri-sinergi.id>\
+    (username: `admin`, password: `admin1234`)
+
+## 🔑 Configuration
+
+-   SSL email: `odoo@simetri-sinergi.id`
+-   Local domain: `traefik.localhost`
+-   Production domain: `traefik.simetri-sinergi.id`
+
+## 📜 License
+
+This project is licensed under the MIT License.\
+See [LICENSE](LICENSE) for details.
+
+------------------------------------------------------------------------
+
+💡 Generated with the help of [ChatGPT](https://openai.com/)
