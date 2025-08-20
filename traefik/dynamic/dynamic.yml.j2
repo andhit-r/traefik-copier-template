@@ -1,0 +1,8 @@
+http:
+  middlewares:
+    prod-auth:
+      basicAuth:
+        users:
+          - "{{ dashboard_user }}:{{ dashboard_password_hash }}"
+    prod-compress:
+      compress: {}

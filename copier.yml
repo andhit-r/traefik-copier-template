@@ -1,0 +1,74 @@
+# Copier template for Traefik stack (split compose files)
+# This template was generated from your uploaded zip structure.
+_min_copier_version: "9.2.0"
+_templates_suffix: .j2
+
+# Questions
+project_slug:
+  type: str
+  help: "Nama folder project (slug) tempat file compose akan diletakkan"
+  default: "traefik-stack"
+
+stack_name:
+  type: str
+  help: "Nama stack / prefix container (COMPOSE_PROJECT_NAME)"
+  default: "{{ project_slug }}"
+
+traefik_image:
+  type: str
+  default: "traefik"
+traefik_version:
+  type: str
+  default: "v2.11"
+
+public_network:
+  type: str
+  help: "Nama Docker network publik yang digunakan bersama (Traefik)"
+  default: "traefik-public"
+
+internal_network:
+  type: str
+  help: "Nama Docker network internal untuk stack ini"
+  default: "{{ project_slug }}_internal"
+
+docker_socket_path:
+  type: str
+  help: "Path docker socket untuk provider docker Traefik"
+  default: "/var/run/docker.sock"
+
+le_email:
+  type: str
+  help: "Email Let's Encrypt (production)"
+  default: "admin@example.com"
+
+dashboard_user:
+  type: str
+  help: "Username basic auth untuk dashboard di production"
+  default: "admin"
+
+dashboard_password_hash:
+  type: str
+  help: "Password hash htpasswd (bcrypt) untuk dashboard di production (format 'user:hash' TIDAK diperlukan; cukup hash). Gunakan: `openssl passwd -apr1 YOUR_PASS` atau `htpasswd -nbB admin YOUR_PASS | cut -d: -f2`"
+  default: "$apr1$example$9sz7mQm7z4JmQH8Y5KXoI0"
+
+domain_local_dashboard:
+  type: str
+  help: "Hostname dashboard di lokal (tanpa SSL)"
+  default: "traefik.localhost"
+
+domain_prod_dashboard:
+  type: str
+  help: "Hostname dashboard di production (dengan SSL)"
+  default: "traefik.example.com"
+
+acme_storage:
+  type: str
+  help: "Path file penyimpanan ACME (volume) di container"
+  default: "/letsencrypt/acme.json"
+
+acme_volume_hostpath:
+  type: str
+  help: "Path host directory untuk volume ACME (akan di-bind)"
+  default: "./data/letsencrypt"
+
+# Conditional files map (none)

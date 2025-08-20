@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  traefik:
+    labels:
+      - "traefik.http.routers.traefik-prod.rule=Host(`{{ domain_prod_dashboard }}`)"
+      - "traefik.http.routers.traefik-prod.entrypoints=websecure"
+      - "traefik.http.routers.traefik-prod.tls=true"
+      - "traefik.http.routers.traefik-prod.tls.certresolver=leresolver"
+      - "traefik.http.routers.traefik-prod.service=api@internal"
+      - "traefik.http.routers.traefik-prod.middlewares=prod-auth@file,prod-compress@file"
