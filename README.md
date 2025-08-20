@@ -1,15 +1,11 @@
 # 🚀 Traefik Copier Template
 
-![Traefik
-Logo](https://doc.traefik.io/traefik/assets/img/traefik.logo.png)
+![Traefik Logo](https://doc.traefik.io/traefik/assets/img/traefik.logo.png)
 
 [![Docker](https://img.shields.io/badge/Docker-✔-blue?logo=docker)](https://www.docker.com/)
-[![Build
-Status](https://img.shields.io/badge/build-passing-brightgreen)](#)
-[![License:
-MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Made with
-ChatGPT](https://img.shields.io/badge/Made%20with-ChatGPT-ff69b4?logo=openai)](https://openai.com/)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Made with ChatGPT](https://img.shields.io/badge/Made%20with-ChatGPT-ff69b4?logo=openai)](https://openai.com/)
 
 ## 📖 Overview
 
@@ -45,6 +41,41 @@ deployment** with SSL and Let's Encrypt.
         ├── docker-compose.common.yaml
         ├── docker-compose.devel.yaml
         └── docker-compose.prod.yaml
+
+## 🗺️ Architecture
+
+```mermaid
+flowchart LR
+    %% Klien
+    subgraph Client
+        Browser
+    end
+
+    %% Reverse proxy
+    Browser -->|HTTP/HTTPS| Traefik[(Traefik)]
+
+    %% Stack Docker
+    subgraph Docker
+        Traefik <-->|labels| Services
+        subgraph Services
+            S1[Odoo / App / pgAdmin / Superset]
+        end
+    end
+
+    %% Sertifikat & dashboard
+    Traefik -->|TLS (LE)| ACME[(acme.json)]
+    Traefik -->|Dashboard| Dashboard{{/dashboard}}
+
+    %% Styling
+    classDef svc fill:#ffffff,stroke:#888,stroke-width:1px
+    classDef infra fill:#f7f7f7,stroke:#888,stroke-width:1px
+    class Traefik infra
+    class Services svc
+```
+
+**Notes:**
+- **Local**: domain `*.localhost` (no HTTPS), dashboard accessible without auth.  
+- **Production**: domain `*.simetri-sinergi.id`, HTTPS via Let’s Encrypt, dashboard protected with basic-auth.
 
 ## ⚙️ Usage
 
@@ -83,6 +114,6 @@ sudo docker compose -f docker-compose.common.yaml -f docker-compose.prod.yaml up
 This project is licensed under the MIT License.\
 See [LICENSE](LICENSE) for details.
 
-------------------------------------------------------------------------
+---
 
 💡 Generated with the help of [ChatGPT](https://openai.com/)
