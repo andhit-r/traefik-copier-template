@@ -46,25 +46,25 @@ deployment** with SSL and Let's Encrypt.
 
 ```mermaid
 flowchart LR
-    %% Klien
+    %% Client
     subgraph Client
         Browser
     end
 
     %% Reverse proxy
-    Browser -->|HTTP/HTTPS| Traefik[(Traefik)]
+    Browser -->|"HTTP/HTTPS"| Traefik[(Traefik)]
 
-    %% Stack Docker
+    %% Docker stack
     subgraph Docker
-        Traefik <-->|labels| Services
+        Traefik <-->|"labels"| Services
         subgraph Services
             S1[Odoo / App / pgAdmin / Superset]
         end
     end
 
-    %% Sertifikat & dashboard
-    Traefik -->|TLS (LE)| ACME[(acme.json)]
-    Traefik -->|Dashboard| Dashboard{{/dashboard}}
+    %% Certs & dashboard
+    Traefik -->|"TLS_LE"| ACME[(acme.json)]
+    Traefik -->|"Dashboard"| Dashboard{{/dashboard}}
 
     %% Styling
     classDef svc fill:#ffffff,stroke:#888,stroke-width:1px
